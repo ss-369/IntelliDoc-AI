@@ -11,10 +11,13 @@ A production-ready Retrieval-Augmented Generation (RAG) system for intelligent d
 *Detailed sequence diagram showing component interactions and data flow*
 
 - **Frontend**: Streamlit web interface with real-time configuration
-- **Backend**: Modular Python architecture with comprehensive error handling
+- **Backend**: Dual-mode backend with:
+  - **Streamlit** for interactive user experience
+  - **FastAPI** for RESTful API access (`/upload`, `/ask`, `/evaluate`)
 - **Vector Database**: ChromaDB for persistent document embeddings
 - **LLM**: Google Gemini 2.5 Flash for answer generation
 - **Evaluation**: TruLens framework for RAG quality assessment
+
 
 ## 🚀 Features
 

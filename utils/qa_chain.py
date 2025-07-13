@@ -105,76 +105,43 @@ Answer:"""
     def answer_with_sources(self, question: str, documents: List[Document], temperature: float = 0.3) -> Dict[str, Any]:
         """Generate answer with source attribution"""
         try:
+            if not question.strip():
+                raise ValueError("Question cannot be empty")
+            
             if not documents:
                 return {
-                    "answer": "No relevant documents found to answer the question.",
+                    "answer": "No documents provided to generate answer.",
                     "sources": [],
                     "question": question,
                     "model": self.model_name,
-                    "error": "No documents"
+                    "error": "No documents",
+                    "success": False
                 }
             
-            # Prepare context with source labels
+            # Create context from documents
             context_parts = []
             sources = []
             
             for i, doc in enumerate(documents):
-                source_label = f"[Source {i+1}]"
-                context_parts.append(f"{source_label} {doc.page_content}")
+                # Add document content to context
+                context_parts.append(f"Source {i+1}: {doc.page_content}")
                 
+                # Create source information
                 source_info = {
                     "source_id": i + 1,
                     "content_preview": doc.page_content[:200] + "..." if len(doc.page_content) > 200 else doc.page_content,
-                    "metadata": doc.metadata
+                    "metadata": doc.metadata if hasattr(doc, 'metadata') else {}
                 }
                 sources.append(source_info)
             
             context = "\n\n".join(context_parts)
             
-            # Modified prompt for source attribution
-            prompt_with_sources = """You are an AI assistant tasked with answering questions based on provided context with sources.
-Please follow these guidelines:
-
-1. Answer the question using ONLY the information provided in the context below
-2. When referencing information, cite the source using the format [Source X] where X is the source number
-3. If the context doesn't contain enough information to answer the question, say "I cannot answer this question based on the provided context"
-4. Be concise but comprehensive in your response
-5. Do not use any knowledge outside of the provided context
-
-Context with Sources:
-{context}
-
-Question: {question}
-
-Answer (with source citations):"""
+            # Generate answer using the context
+            result = self.generate_answer(question, context, temperature)
             
-            formatted_prompt = prompt_with_sources.format(
-                context=context,
-                question=question
-            )
-            
-            # Generate response
-            response = self.client.models.generate_content(
-                model=self.model_name,
-                contents=formatted_prompt,
-                config=types.GenerateContentConfig(
-                    temperature=temperature,
-                    max_output_tokens=1000
-                )
-            )
-            
-            if not response.text:
-                raise ValueError("Empty response from model")
-            
-            result = {
-                "answer": response.text.strip(),
-                "sources": sources,
-                "question": question,
-                "model": self.model_name,
-                "temperature": temperature,
-                "context_used": context,
-                "success": True
-            }
+            # Add sources to the result
+            result["sources"] = sources
+            result["num_sources"] = len(sources)
             
             logger.info(f"Successfully generated answer with {len(sources)} sources")
             return result
@@ -183,7 +150,7 @@ Answer (with source citations):"""
             logger.error(f"Error generating answer with sources: {e}")
             return {
                 "answer": f"Error generating answer: {str(e)}",
-                "sources": sources if 'sources' in locals() else [],
+                "sources": [],
                 "question": question,
                 "model": self.model_name,
                 "error": str(e),

@@ -4,6 +4,12 @@ A production-ready Retrieval-Augmented Generation (RAG) system for intelligent d
 
 ## 🏗️ Architecture
 
+![System Architecture](screenshots/Mermaid%20Chart%20-%20Create%20complex,%20visual%20diagrams%20with%20text.%20A%20smarter%20way%20of%20creating%20diagrams.-2025-07-13-143054.png)
+*Complete RAG system architecture showing data flow from document upload to answer generation*
+
+![Sequence Diagram](screenshots/sequencedia.png)
+*Detailed sequence diagram showing component interactions and data flow*
+
 - **Frontend**: Streamlit web interface with real-time configuration
 - **Backend**: Modular Python architecture with comprehensive error handling
 - **Vector Database**: ChromaDB for persistent document embeddings
@@ -16,6 +22,7 @@ A production-ready Retrieval-Augmented Generation (RAG) system for intelligent d
 *Main application interface with document upload, Q&A, and evaluation tabs*
 
 ### Core Capabilities
+
 - **Multi-format Document Processing**: PDF, TXT with intelligent chunking
 - **Advanced Retrieval**: Semantic search with contextual compression
 - **AI-Powered Q&A**: Context-aware answer generation with source attribution
@@ -23,6 +30,7 @@ A production-ready Retrieval-Augmented Generation (RAG) system for intelligent d
 - **Interactive Interface**: Real-time parameter adjustment and conversation history
 
 ### Technical Highlights
+
 - **Production-Ready**: Environment-based configuration and comprehensive logging
 - **Scalable Architecture**: Modular design supporting multiple LLM and embedding providers
 - **Persistent Storage**: ChromaDB with automatic document versioning
@@ -57,34 +65,41 @@ A production-ready Retrieval-Augmented Generation (RAG) system for intelligent d
 ## 🚀 Quick Start
 
 1. **Install Dependencies**:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 2. **Set API Keys**:
+
    ```bash
    export GEMINI_API_KEY="your_gemini_api_key"
    ```
 
 3. **Run Application**:
+
    ```bash
    streamlit run app.py --server.port 5000
    ```
 
-4. **Access Interface**: http://localhost:5000
+4. **Access Interface**: <http://localhost:5000>
 
 ## 📸 Demo Screenshots
 
 ### Main Application Interface
+
 ![Application Interface](screenshots/interface.png)
 
 ### Document Processing Workflow
+
 ![Document Processing](screenshots/doc_processing.png)
 
 ### Source Attribution & Q&A
+
 ![Source Attribution](screenshots/doc_sources.png)
 
 ### TruLens Evaluation Dashboard
+
 ![TruLens Evaluation](screenshots/trulens.png)
 
 ## 📁 Project Structure
@@ -125,6 +140,7 @@ IntelligentDocumentQA/
 *TruLens evaluation dashboard showing comprehensive RAG quality metrics*
 
 The system includes comprehensive evaluation using TruLens framework:
+
 - **Answer Relevance**: Measures how well answers address questions
 - **Context Relevance**: Evaluates retrieval quality and relevance
 - **Groundedness**: Assesses answer factual accuracy against sources

@@ -18,3 +18,8 @@ trulens-eval>=1.5.3
 
 # Configuration
 python-dotenv
+
+# FastAPI & Web Server
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
